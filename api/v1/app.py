@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Api app"""
 from os import getenv
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 
@@ -11,11 +11,16 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def handle_context(code):
-    """ method to handle context and call close"""
+    """method to handle context and call close"""
     storage.close()
 
-if __name__ == "__main__":
 
+@app.errorhandler(404)
+def handler_error(error):
+    """method to handle 404"""
+    return make_response(jsonify({"error": "Not found"}), 404)
+
+if __name__ == "__main__":
     if getenv("HBNB_API_HOST"):
         new_host = getenv("HBNB_API_HOST")
     else:
