@@ -16,6 +16,7 @@ def status_url():
     """Method that returns a status JSON"""
     return jsonify({"status": "OK"})
 
+
 @app_views.route('/stats')
 def storage_stats():
     """Endpoint that retrieves the number of each objects by type"""
