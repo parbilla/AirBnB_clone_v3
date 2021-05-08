@@ -25,7 +25,8 @@ def getMethod(state_id=None):
         return jsonify(states)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def deleteMethod(state_id):
     """Defines delete method"""
 
@@ -43,7 +44,7 @@ def postMethod():
     """Defines post method"""
     if not request.get_json():
         abort(400, 'Not a JSON')
-    if not 'name' in request.get_json():
+    if 'name' not in request.get_json():
         abort(400, 'Missing name')
     newState = State(**request.get_json())
     newState.save()
