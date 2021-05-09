@@ -21,7 +21,7 @@ def getAmenities(amenity_id=None):
     else:
         amenities = []
         for amenity in storage.all("Amenity").values():
-            states.append(amenity.to_dict())
+            amenities.append(amenity.to_dict())
         return jsonify(amenities)
 
 
