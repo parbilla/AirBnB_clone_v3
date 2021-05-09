@@ -52,22 +52,19 @@ def postMethod():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def putMethod(state_id=None):
+def putMethod(state_id):
     """Defines put method"""
 
-    if (state_id):
-        if not request.get_json():
-            abort(400, 'Not a JSON')
-        objName = "State." + state_id
-        if (objName in storage.all()):
-            newState = storage.get(State, state_id)
-            changeState = request.get_json()
-            for key, value in changeState.items():
-                if (key=='name'):
-                    setattr(newState, key, value)
-            newState.save()
-            return (jsonify(newState.to_dict()), 201)
-        else:
-            abort(400, 'Not a JSON')
+    if not request.get_json():
+        abort(400, 'Not a JSON')
+    objName = "State." + state_id
+    if (objName in storage.all()):
+        newState = storage.get(State, state_id)
+        changeState = request.get_json()
+        for key, value in changeState.items():
+            if (key == 'name'):
+                setattr(newState, key, value)
+                newState.save()
+                return (jsonify(newState.to_dict()), 201)
     else:
         abort(404)
