@@ -64,7 +64,7 @@ def putMethod(state_id):
         for key, value in changeState.items():
             if (key == 'name'):
                 setattr(newState, key, value)
-                newState.save()
-                return (jsonify(newState.to_dict()), 201)
+        newState.save()
+        return (jsonify(newState.to_dict()), 201)
     else:
         abort(404)
