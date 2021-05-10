@@ -19,7 +19,7 @@ def getPlace1(place_id=None):
         abort(404)
 
 
-@app_views.route('cities/<city_id>/places', methods=['GET'],
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
 def getPlace2(city_id=None):
     """defines get method 2"""
@@ -46,7 +46,7 @@ def deletePlace(place_id):
         abort(404)
 
 
-@app_views.route('cities/<city_id>/places', methods=['POST'],
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
 def postPlace(city_id=None):
     """Defines post method"""
@@ -67,7 +67,7 @@ def postPlace(city_id=None):
     return (jsonify(newPlace.to_dict()), 201)
 
 
-@app_views.route('places/<place_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def putPlace(place_id):
     """Defines put method"""
 
