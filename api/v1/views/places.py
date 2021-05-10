@@ -53,8 +53,11 @@ def postPlace(city_id=None):
 
     if (("City." + city_id) not in storage.all()):
         abort(404)
-    if (("User." + user_id) not in storage.all()):
+    user = storage.get("User", request.get_json()['user_id'])
+    if user is None:
         abort(404)
+    # if (("User." + user_id) not in storage.all()):
+    #    abort(404)
     if not request.get_json():
         abort(400, 'Not a JSON')
     if 'user_id' not in request.get_json():
