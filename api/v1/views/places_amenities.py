@@ -36,13 +36,13 @@ def delAmenity(place_id, amenity_id):
     if (("Place." + place_id) in storage.all()):
         if (("Amenity." + amenity_id) in storage.all()):
             objPlace = storage.get(Place, place_id)
-            objAmenity = storage.get(Amentiy, amenity_id)
+            objAmenity = storage.get(Amenity, amenity_id)
             if os.getenv('HBNB_TYPE_STORAGE') == 'db':
                 place_amenities = objPlace.amenities
             else:
                 place_amenities = objPlace.amenity_ids
             if objAmenity in place_amenities:
-                objPlace.delete()
+                objPlace.remove(objAmenity)
                 objPlace.save()
                 return jsonify({}), 200
     abort(404)
