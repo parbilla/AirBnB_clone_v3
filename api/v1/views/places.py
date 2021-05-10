@@ -22,11 +22,12 @@ def getPlace1(place_id=None):
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
 def getPlace2(city_id=None):
-    """defines get method 2"""
+    """Defines get method 2"""
     if (("City." + city_id) in storage.all()):
         places = []
         for place in storage.all("Place").values():
-            places.append(place.to_dict())
+            if (place.city_id == city_id):
+                places.append(place.to_dict())
         return jsonify(places)
     else:
         abort(404)
