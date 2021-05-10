@@ -6,7 +6,7 @@ from flask import Flask, Blueprint, jsonify, abort, request
 from models import storage
 from models.city import City
 from models.place import Place
-from models.user import Users
+from models.user import User
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
