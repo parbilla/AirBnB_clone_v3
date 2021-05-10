@@ -64,7 +64,9 @@ def putUser(user_id):
         newUser = storage.get(User, user_id)
         changeUser = request.get_json()
         for key, value in changeUser.items():
-            if (key == 'name'):
+            if (key == 'email'):
+                setattr(newUser, key, value)
+            if (key == 'password'):
                 setattr(newUser, key, value)
         newUser.save()
         return (jsonify(newUser.to_dict()), 200)
