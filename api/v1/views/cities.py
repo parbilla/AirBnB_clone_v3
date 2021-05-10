@@ -50,12 +50,12 @@ def deleteCity(city_id):
 def postCity(state_id=None):
     """Defines post method"""
 
-    if (("State." + state_id) not in storage.all()):
-        abort(404)
     if not request.get_json():
         abort(400, 'Not a JSON')
     if 'name' not in request.get_json():
         abort(400, 'Missing name')
+    if (("State." + state_id) not in storage.all()):
+        abort(404)
     request.get_json()['state_id'] = state_id
     newCity = City(**request.get_json())
     newCity.save()
