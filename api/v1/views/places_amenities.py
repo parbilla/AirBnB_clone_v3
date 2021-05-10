@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """New view for the link between Place objects and Amenity objects
  that handles all default RestFul API actions"""
-
+import os
 from api.v1.views import app_views
 from flask import Flask, Blueprint, jsonify, abort, request
 from models import storage
