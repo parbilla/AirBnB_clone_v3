@@ -25,7 +25,9 @@ def getCity2(state_id=None):
     if (("State." + state_id) in storage.all()):
         cities = []
         for city in storage.all("City").values():
-            cities.append(city.to_dict())
+            if (city.state_id == state_id):
+                print(city)
+                cities.append(city.to_dict())
         return jsonify(cities)
     else:
         abort(404)
