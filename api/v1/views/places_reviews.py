@@ -22,11 +22,12 @@ def getReview1(review_id=None):
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
 def getReview2(place_id=None):
-    """defines get method 2"""
+    """Defines get method 2"""
     if (("Place." + place_id) in storage.all()):
         reviews = []
         for review in storage.all("Review").values():
-            reviews.append(review.to_dict())
+            if (review.place_id ==  place_id):
+                reviews.append(review.to_dict())
         return jsonify(reviews)
     else:
         abort(404)
