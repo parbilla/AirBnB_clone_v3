@@ -24,8 +24,8 @@ def getAmenity(place_id=None):
         abort(404)
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'],
-                 strict_slashes=False)
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delAmenity(place_id, amenity_id):
     """Defines delete method"""
 
@@ -37,7 +37,10 @@ def delAmenity(place_id, amenity_id):
                 storage.get(Amenity, amenity_id).delete()
                 storage.save()
                 return jsonify({}), 200
-    abort(404)
+        else:
+            abort(404)
+    else:
+        abort(404)
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'],
