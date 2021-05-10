@@ -102,6 +102,6 @@ class TestsTask3(unittest.TestCase):
         self.assertIsEqual(models.storage.count(State)),
         len(models.storage.all(State))
 
-    @unittest.skipf(models.storage_t != 'db', "not testing db storage")
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
         """test if it receives one object"""
