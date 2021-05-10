@@ -114,6 +114,7 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
+
 class TestsTask3(unittest.TestCase):
     """Test for task 3"""
 
@@ -125,7 +126,8 @@ class TestsTask3(unittest.TestCase):
     @unittest.skipIf(models.storage_t == 'db', "not testing db storage")
     def test_count2(self):
         """test number of objects of specific class"""
-        self.assertIsEqual(models.storage.count(State)), len(models.storage.all(State))
+        self.assertIsEqual(models.storage.count(State)),
+        len(models.storage.all(State))
 
     @unittest.skipf(models.storage_t == 'db', "not testing db storage")
     def test_get(self):
