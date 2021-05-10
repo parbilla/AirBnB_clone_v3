@@ -59,7 +59,7 @@ def postPlace(city_id=None):
         abort(400, 'Missing name')
     if (("City." + city_id) not in storage.all()):
         abort(404)
-    if (("User." + user_id) not in storage.all()):
+    if storage.get(User, request.get_json()['user_id']) is None:
         abort(404)
     request.get_json()['city_id'] = city_id
     newPlace = Place(**request.get_json())
