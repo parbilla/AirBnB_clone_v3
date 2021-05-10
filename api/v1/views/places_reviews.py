@@ -26,7 +26,7 @@ def getReview2(place_id=None):
     if (("Place." + place_id) in storage.all()):
         reviews = []
         for review in storage.all("Review").values():
-            if (review.place_id ==  place_id):
+            if (review.place_id == place_id):
                 reviews.append(review.to_dict())
         return jsonify(reviews)
     else:
