@@ -41,9 +41,9 @@ def delAmenity(place_id, amenity_id):
             else:
                 place_amenities = objPlace.amenity_ids
             if objAmenity in place_amenities:
-                objPlace.remove(objAmenity)
+                place_amenities.remove(objAmenity)
                 objPlace.save()
-                return jsonify({}), 200
+                return (jsonify({}), 200)
     abort(404)
 
 
@@ -61,6 +61,6 @@ def posAmenity(place_id, amenity_id):
     else:
         place_amenities = objPlace.amenity_ids
     if objAmenity in place_amenities:
-        return jsonify(objAmenity.to_dict()), 200
+        return (jsonify(objAmenity.to_dict()), 200)
     else:
-        return jsonify(objAmenity.to_dict()), 201
+        return (jsonify(objAmenity.to_dict()), 201)
