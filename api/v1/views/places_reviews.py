@@ -4,9 +4,19 @@
 from api.v1.views import app_views
 from flask import Flask, Blueprint, jsonify, abort, request
 from models import storage
-from models.review import Review
 from models.place import Place
+from models.review import Review
 from models.user import User
+
+
+@app_views.route('reviews/<review_id>', methods=['GET'], strict_slashes=False)
+def getReview2(review_id=None):
+    """Defines get method 2"""
+    objName = "Review." + review_id
+    if (objName in storage.all()):
+        return jsonify((storage.get(Review, review_id)).to_dict())
+    else:
+        abort(404)
 
 
 @app_views.route('places/<place_id>/reviews', methods=['GET'],
@@ -18,16 +28,6 @@ def getReview1(place_id=None):
         for review in storage.all("Review").values():
             reviews.append(review.to_dict())
         return jsonify(reviews)
-    else:
-        abort(404)
-
-
-@app_views.route('reviews/<review_id>', methods=['GET'], strict_slashes=False)
-def getReview2(review_id=None):
-    """Defines get method 2"""
-    objName = "Review." + review_id
-    if (objName in storage.all()):
-        return jsonify((storage.get(Review, review_id)).to_dict())
     else:
         abort(404)
 
