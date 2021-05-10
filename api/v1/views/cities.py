@@ -54,7 +54,7 @@ def postCity(state_id=None):
         abort(400, 'Not a JSON')
     if 'name' not in request.get_json():
         abort(400, 'Missing name')
-    if (("State." + state_id) not in storage.all()):
+    if storage.get(State, state_id) is None:
         abort(404)
     request.get_json()['state_id'] = state_id
     newCity = City(**request.get_json())
