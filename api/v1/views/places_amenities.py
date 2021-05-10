@@ -23,7 +23,7 @@ def getAmenity(place_id=None):
             place_amenities = objPlace.amenity_ids
         for amenity in place_amenities:
             amenitiesList.append(amenity.to_dict())
-            return jsonify(amenitiesList)
+        return jsonify(amenitiesList)
     else:
         abort(404)
 
