@@ -3,11 +3,11 @@
  that handles all default RestFul API actions"""
 import os
 from api.v1.views import app_views
-from flask import Flask, Blueprint, jsonify, abort, request
+from flask import jsonify, abort, request
 from models import storage
 from models.place import Place
 from models.amenity import Amenity
-from models.base_model import BaseModel
+
 
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'],
