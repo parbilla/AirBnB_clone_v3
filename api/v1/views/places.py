@@ -2,7 +2,7 @@
 """New view for Cities objects that handles all default RestFul API actions"""
 
 from api.v1.views import app_views
-from flask import Flask, Blueprint, jsonify, make_response, abort, request
+from flask import Flask, Blueprint, jsonify, abort, request
 from models import storage
 from models.city import City
 from models.place import Place
@@ -46,27 +46,25 @@ def deletePlace(place_id):
         abort(404)
 
 
-@app_views.route('/cities/<string:city_id>/places', methods=['POST'],
+@app_views.route('cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
-def post_place(city_id):
-    """create a new place"""
-    city = storage.get("City", city_id)
-    if city is None:
-        abort(404)
+def postPlace(city_id=None):
+    """Defines post method"""
+
     if not request.get_json():
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    kwargs = request.get_json()
-    if 'user_id' not in kwargs:
-        return make_response(jsonify({'error': 'Missing user_id'}), 400)
-    user = storage.get("User", kwargs['user_id'])
-    if user is None:
+        abort(400, 'Not a JSON')
+    if 'user_id' not in request.get_json():
+        abort(400, 'Missing user_id')
+    if 'name' not in request.get_json():
+        abort(400, 'Missing name')
+    if (("City." + city_id) not in storage.all()):
         abort(404)
-    if 'name' not in kwargs:
-        return make_response(jsonify({'error': 'Missing name'}), 400)
-    kwargs['city_id'] = city_id
-    place = Place(**kwargs)
-    place.save()
-    return make_response(jsonify(place.to_dict()), 201)
+    if (("User." + user_id) not in storage.all()):
+        abort(404)
+    request.get_json()['city_id'] = city_id
+    newPlace = Place(**request.get_json())
+    newPlace.save()
+    return (jsonify(newPlace.to_dict()), 201)
 
 
 @app_views.route('places/<place_id>', methods=['PUT'], strict_slashes=False)
