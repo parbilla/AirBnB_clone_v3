@@ -7,7 +7,7 @@ from flask import Flask, Blueprint, jsonify, abort, request
 from models import storage
 from models.place import Place
 from models.amenity import Amenity
-from models.user import User
+from models.base_model import BaseModel
 
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'],
@@ -15,11 +15,11 @@ from models.user import User
 def getAmenity(place_id=None):
     """Defines get method"""
     if (("Place." + place_id) in storage.all()):
-        amenities = []
-        for amenity in storage.all("Amenity").values():
-            if (amenity.place_id == place_id):
-                amenities.append(amenity.to_dict())
-        return jsonify(amenities)
+        amenitiesList = []
+        objPlace = storage.get(Place, place_id)
+        for amenity in objPlace.amenities:
+            amenitiesList.append(amenity.to_dict())
+        return jsonify(amenitiesList)
     else:
         abort(404)
 
@@ -30,9 +30,9 @@ def delAmenity(place_id, amenity_id):
     """Defines delete method"""
 
     objPlace = "Place." + place_id
-    if (objPlace in storage.all()):
+    if (objPlace in storage.all(Place)):
         objName = "Amenity." + amenity_id
-        if objName in storage.all():
+        if objName in objPlace.amenities:
             if objName in objPlace.amenities:
                 storage.get(Amenity, amenity_id).delete()
                 storage.save()
