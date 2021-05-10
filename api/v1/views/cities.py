@@ -73,7 +73,7 @@ def putCity(city_id):
         newCity = storage.get(City, city_id)
         changeCity = request.get_json()
         for key, value in changeCity.items():
-            if (key == 'name'):
+            if key not in ['id', 'state_id', 'created_at', 'updated_at']:
                 setattr(newCity, key, value)
         newCity.save()
         return (jsonify(newCity.to_dict()), 200)
