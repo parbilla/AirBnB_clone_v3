@@ -21,12 +21,11 @@ def getCity(city_id=None):
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
 def getCity2(state_id=None):
-    """defines get method 2"""
+    """Defines get method 2"""
     if (("State." + state_id) in storage.all()):
         cities = []
         for city in storage.all("City").values():
             if (city.state_id == state_id):
-                print(city)
                 cities.append(city.to_dict())
         return jsonify(cities)
     else:
