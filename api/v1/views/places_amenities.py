@@ -17,9 +17,13 @@ def getAmenity(place_id=None):
     if (("Place." + place_id) in storage.all()):
         amenitiesList = []
         objPlace = storage.get(Place, place_id)
-        for amenity in objPlace.amenities:
+        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+            place_amenities = objPlace.amenities
+        else:
+            place_amenities = objPlace.amenity_ids
+        for amenity in place_amenities:
             amenitiesList.append(amenity.to_dict())
-        return jsonify(amenitiesList)
+            return jsonify(amenitiesList)
     else:
         abort(404)
 
@@ -29,18 +33,19 @@ def getAmenity(place_id=None):
 def delAmenity(place_id, amenity_id):
     """Defines delete method"""
 
-    objPlace = "Place." + place_id
-    if (objPlace in storage.all(Place)):
-        objName = "Amenity." + amenity_id
-        if objName in objPlace.amenities:
-            if objName in objPlace.amenities:
-                storage.get(Amenity, amenity_id).delete()
-                storage.save()
+    if (("Place." + place_id) in storage.all()):
+        if (("Amenity." + amenity_id) in storage.all()):
+            objPlace = storage.get(Place, place_id)
+            objAmenity = storage.get(Amentiy, amenity_id)
+            if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+                place_amenities = objPlace.amenities
+            else:
+                place_amenities = objPlace.amenity_ids
+            if objAmenity in place_amenities:
+                objPlace.delete()
+                objPlace.save()
                 return jsonify({}), 200
-        else:
-            abort(404)
-    else:
-        abort(404)
+    abort(404)
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'],
@@ -48,13 +53,15 @@ def delAmenity(place_id, amenity_id):
 def posAmenity(place_id, amenity_id):
     """Defines post method"""
 
-    if storage.get(Place, place_id) is None:
+    objPlace = storage.get(Place, place_id)
+    objAmenity = storage.get(Amenity, amenity_id)
+    if objPlace is None or objAmenity is None:
         abort(404)
-    if storage.get(Amenity, amenity_id) is None:
-        abort(404)
-    print(storage.get(Place, place_id))
-    print(storage.get(Amenity, amenity_id))
-    if storage.get(Amenity, amenity_id) in storage(Place, place_id).amenities:
-        return jsonify(storage.get(Amenity, amenity_id).to_dict), 200
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        place_amenities = objPlace.amenities
     else:
-        return jsonify(storage.get(Amenity, amenity_id).to_dict), 201
+        place_amenities = objPlace.amenity_ids
+    if objAmenity in place_amenities:
+        return jsonify(objAmenity.to_dict()), 200
+    else:
+        return jsonify(objAmenity.to_dict()), 201
